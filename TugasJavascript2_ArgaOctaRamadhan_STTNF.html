@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tugas 2 Javascript</title>
+</head>
+<body>
+
+    <h4>Nama: Arga Octa Ramadhan</h4> 
+    <h4>NIM: 0110224165</h4>
+    <h2>Data Pegawai</h2>
+
+    <table border="1" cellpadding="8" cellspacing="0">
+        <thead>
+            <tr>
+                <th>Nama Pegawai</th>
+                <th>Umur</th>
+                <th>Jabatan</th>
+                <th>Status</th>
+                <th>Gaji Pokok</th>
+                <th>Tunjangan Jabatan</th>
+                <th>BPJS</th>
+                <th>Tunjangan Keluarga</th>
+                <th>Total Gaji</th>
+            </tr>
+        </thead>
+
+        <tbody id="dataPegawai"></tbody>
+
+        <tfoot>
+            <tr>
+                <th colspan="8">Total Seluruh Gaji</th>
+                <th id="totalGaji"></th>
+            </tr>
+        </tfoot>
+    </table>
+
+    <script>
+        let pegawai = [
+            {
+                nama: "Gunardi ",
+                umur: 25,
+                jabatan: "Manajer",
+                status: "Menikah"
+            },
+            {
+                nama: "Harit",
+                umur: 28,
+                jabatan: "Staff",
+                status: "Menikah"
+            },
+            {
+                nama: "Dodo",
+                umur: 24,
+                jabatan: "Asisten Manajer",
+                status: "Belum Menikah"
+            },
+            {
+                nama: "Ehsan",
+                umur: 30,
+                jabatan: "Staff",
+                status: "Menikah"
+            },
+            {
+                nama: "Radit",
+                umur: 23,
+                jabatan: "Staff",
+                status: "Belum Menikah"
+            }
+        ];
+
+        let tabel = "";
+
+        let totalSemuaGaji = 0;
+
+        pegawai.forEach(function(data) {
+
+            // Menentukan gaji pokok menggunakan if
+            let gapok;
+
+            if (data.jabatan == "Manajer") {
+                gapok = 15000000;
+            } else if (data.jabatan == "Asisten Manajer") {
+                gapok = 10000000;
+            } else if (data.jabatan == "Staff") {
+                gapok = 5000000;
+            }
+
+            // Tunjangan Jabatan 15% dari gaji pokok
+            let tunjanganJabatan = gapok * 15 / 100;
+
+            // BPJS 10% dari gaji pokok
+            let bpjs = gapok * 10 / 100;
+
+            // Tunjangan keluarga menggunakan ternary
+            let tunjanganKeluarga = data.status == "Menikah"
+                ? gapok * 20 / 100
+                : 0;
+
+            // Total gaji
+            let totalGaji = gapok + tunjanganJabatan + bpjs + tunjanganKeluarga;
+
+            totalSemuaGaji += totalGaji;
+
+            tabel += `
+                <tr>
+                    <td>${data.nama}</td>
+                    <td>${data.umur}</td>
+                    <td>${data.jabatan}</td>
+                    <td>${data.status}</td>
+                    <td>Rp ${gapok.toLocaleString("id-ID")}</td>
+                    <td>Rp ${tunjanganJabatan.toLocaleString("id-ID")}</td>
+                    <td>Rp ${bpjs.toLocaleString("id-ID")}</td>
+                    <td>Rp ${tunjanganKeluarga.toLocaleString("id-ID")}</td>
+                    <td>Rp ${totalGaji.toLocaleString("id-ID")}</td>
+                </tr>
+            `;
+        });
+
+        document.getElementById("dataPegawai").innerHTML = tabel;
+
+        document.getElementById("totalGaji").innerHTML =
+            "Rp " + totalSemuaGaji.toLocaleString("id-ID");
+    </script>
+
+</body>
+</html>
